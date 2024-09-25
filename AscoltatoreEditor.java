@@ -40,6 +40,14 @@ public class AscoltatoreEditor implements ActionListener {
 		return null;
 	}
 	
+	public boolean EsisteNumeroTel(String tel) {
+		for(Persona p:lista_persone) {
+			if(p.getTelefono()==tel)
+				return true;
+		}
+		return false;
+	}
+	
 	public AscoltatoreEditor(JFrame f) {
 		this.frame=f;
 	}
@@ -69,7 +77,16 @@ public class AscoltatoreEditor implements ActionListener {
 				if(modificaElemento) {
 					String valoreTel = (String) tabella.getValueAt(tabella.getSelectedRow(), 2);
 					Persona temp=trovaPersona(valoreTel);
+					File verFile=new File(dir,p.getStringHashCode()+".txt");
+					if(verFile.exists()) {
+						System.out.println("file esiste gia");
+						JOptionPane.showMessageDialog(null,"inserire un numero di telefono non presente");
+						return;
+					}
+					
+					System.out.println(p.getTelefono());
 					File f=new File(dir,temp.getStringHashCode()+".txt");
+					
 					lista_persone.remove(temp);
 					if(f.exists()) {
 						f.delete();
@@ -84,17 +101,18 @@ public class AscoltatoreEditor implements ActionListener {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					
+						
 					lista_persone.add(p);
 					modelloTabella.setValueAt(p.getNome(), valoreListaModifica, 0);
-                    modelloTabella.setValueAt(p.getCognome(), valoreListaModifica, 1);
-                    modelloTabella.setValueAt(p.getTelefono(), valoreListaModifica, 2);
+	                modelloTabella.setValueAt(p.getCognome(), valoreListaModifica, 1);
+	                modelloTabella.setValueAt(p.getTelefono(), valoreListaModifica, 2);
 				}
 				else {
 					File f=new File(dir,p.getStringHashCode()+".txt");
 					if(f.exists()) {
 						System.out.println("file esiste gia");
-						this.frame.dispose();
+						JOptionPane.showMessageDialog(null,"inserire un numero di telefono non presente");
+						return;
 					}
 					else {
 						try {
@@ -107,10 +125,9 @@ public class AscoltatoreEditor implements ActionListener {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						
+						lista_persone.add(p);
+						modelloTabella.addRow(new Object[]{p.getNome(), p.getCognome(), p.getTelefono()});
 					}
-					lista_persone.add(p);
-					modelloTabella.addRow(new Object[]{p.getNome(), p.getCognome(), p.getTelefono()});
 				}
 				sort.sort();
 				this.frame.dispose();
