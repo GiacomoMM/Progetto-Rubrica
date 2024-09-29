@@ -1,6 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -59,6 +60,22 @@ public class AscoltatoreEditPersona implements ActionListener {
 			return false;
 		}
 	}
+	
+	private boolean verificaPresenzaNumero(String n) {
+		String s="SELECT COUNT(*) FROM persone WHERE telefono=?";
+		try {
+			PreparedStatement ps=editPersona.conn.prepareStatement(s);
+			ps.setString(1, n);
+			ResultSet r=ps.executeQuery();
+			if(r.next()) {
+				return r.getInt(1)>0;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -103,6 +120,13 @@ public class AscoltatoreEditPersona implements ActionListener {
 					JOptionPane.showMessageDialog(null, "Tutti i campi devono essere riempiti");
 					return;
 			    }
+				
+				if(verificaPresenzaNumero(valoreTelefono.getText())) {
+					JOptionPane.showMessageDialog(null, "Numero telefono già presente inserire un numero diverso");
+					return;
+				}
+					
+					
 				this.editPersona.lista_persone.remove(this.editPersona.p);
 				String temp_telefono=this.editPersona.p.getTelefono();
 				
@@ -136,5 +160,7 @@ public class AscoltatoreEditPersona implements ActionListener {
 			return ;
 		}
 	}
+
+	
 
 }

@@ -13,7 +13,7 @@ CREATE DATABASE Informazioni
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
 
-\c Informazioni
+\c informazioni
 
 CREATE TABLE persone (
     nome TEXT NOT NULL,
