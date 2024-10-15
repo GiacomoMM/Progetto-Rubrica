@@ -16,3 +16,5 @@ tramite hashCode del numero di telefono(essendo esso univoco). Il formato dei fi
 
 La gestione della rubrica cioè inserimento/modifica di un elemento dalla rubrica avviene attraverso una seconda GUI, costituita da diversi campi associati agli attributi della classe "Persona".
 L'eliminazione di un elemento viene gestito tramite conferma di eliminazione.
+
+Per il database usare i file properties e sql presenti nel branch database version. 
